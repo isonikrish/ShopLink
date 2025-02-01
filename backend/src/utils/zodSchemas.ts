@@ -9,3 +9,8 @@ export const loginSchema = z.object({
     email: z.string().email(),
     password: z.string(),
 })
+
+export const createShopSchema = z.object({
+    name: z.string().min(1, "Name is required").max(50, "Name must be less than 50 characters"),
+    currency: z.enum(['usd','inr'])
+})

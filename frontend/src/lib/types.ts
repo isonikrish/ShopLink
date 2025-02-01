@@ -5,3 +5,26 @@ export type LoginInput = {
 export type SignupInput = {
   name: string;
 } & LoginInput;
+export type User = {
+  id: number,
+  name: string,
+  email: string
+}
+
+export type createShop= {
+  name: string,
+  currency: string
+}
+
+
+export type userStore = {
+  user: User | null,
+  fetchUser: () => void,
+  logout: ()=> void,
+  signup: (formData: SignupInput) => void,
+  login: (formData: LoginInput) => void,
+}
+
+export type shopStore = {
+  createShop: (formData: createShop) => void,
+}

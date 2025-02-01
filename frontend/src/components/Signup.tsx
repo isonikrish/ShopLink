@@ -4,12 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 import { SignupInput } from "@/lib/types";
 import { LoaderCircle } from "lucide-react";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { BACKEND_URL } from "@/lib/backend_url";
+import { useUser } from "@/stores/userStore";
 
 
 function Signup({ setIsLogin }: { setIsLogin: (value: boolean) => void }) {
+  const {signup} = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<SignupInput>({
     name: "",
@@ -19,21 +18,8 @@ function Signup({ setIsLogin }: { setIsLogin: (value: boolean) => void }) {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    try {
-      const res = await axios.post(
-        `${BACKEND_URL}/api/user/signup`,
-        formData,
-        { withCredentials: true }
-      );
-      if(res.status === 200){
-        toast.success("Signup Successfull")
-      }
-    } catch (error) {
-      setIsLoading(false);
-    } finally{
-      setIsLoading(false);
-    }
+    await signup(formData);
+    setIsLoading(false);
   };
 
   return (
