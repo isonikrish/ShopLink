@@ -6,6 +6,7 @@ import { useUser } from "./stores/userStore";
 import { useEffect } from "react";
 import CreateShop from "./pages/CreateShop";
 import { ProtectedRoute } from "./lib/protectRoute";
+import MyShops from "./pages/MyShops";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -15,6 +16,8 @@ function App() {
       fetchUser();
     }
   }, []);
+
+  
   return (
     <div>
       <Navbar />
@@ -28,7 +31,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+        <Route
+          path="/my-shops"
+          element={
+            <ProtectedRoute>
+              <MyShops />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Toaster />
     </div>

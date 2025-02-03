@@ -1,39 +1,55 @@
-import { Heart, ShoppingBag } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
+import { Heart, ShoppingBag, Store } from "lucide-react";
 import logo from "/shoplink.png";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { useUser } from "@/stores/userStore";
-import ProfiileDropdown from "./ProfileDropdown";
+import { useUser } from "../stores/userStore";
+import ProfileDropdown from "./ProfileDropdown";
 
 function Navbar() {
   const { user } = useUser();
+
   return (
-    <nav className="flex items-center justify-between p-4 border-b shadow-sm">
-      <Link className="w-32 cursor-pointer" to={"/"}>
-        <img
-          src={logo}
-          alt="ShopLink Logo"
-          className="w-full h-auto object-contain"
-        />
+    <nav className="flex items-center justify-between py-3 px-4 border border-b shadow-sm">
+
+      <Link className="w-[130px] cursor-pointer" to={"/"}>
+        <img src={logo} className="w-full h-full object-contain" />
       </Link>
-      <div className="flex items-center gap-4">
+
+      <div className="flex items-center gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 flex items-center cursor-pointer">
-            <Heart size={23} />
-          </div>
-          <div className="w-10 h-10 flex items-center cursor-pointer">
-            <ShoppingBag size={23} />
-          </div>
+          <Link to="/wishlist" className="relative text-gray-700 hover:text-pink-500">
+            <Heart size={30} />
+            <span className="absolute top-0 right-0 text-xs text-white bg-pink-500 rounded-full w-4 h-4 flex items-center justify-center">
+              3
+            </span>
+          </Link>
+
+          <Link to="/cart" className="relative text-gray-700 hover:text-pink-500">
+            <ShoppingBag size={30} />
+            <span className="absolute top-0 right-0 text-xs text-white bg-pink-500 rounded-full w-4 h-4 flex items-center justify-center">
+              5
+            </span>
+          </Link>
         </div>
         {user ? (
-          <ProfiileDropdown />
+          <div className="flex items-center gap-4">
+            <Link
+              className="btn w-36 rounded-lg bg-pink-500 text-white flex items-center justify-center gap-2 py-2 px-4"
+              to={'/create-shop'}
+            >
+              <Store className="w-5 h-5" />
+              <span>Create Shop</span>
+            </Link>
+
+            <ProfileDropdown />
+          </div>
         ) : (
-          <Link to={"/login"}>
-            <Button>Login</Button>
-          </Link>
+          <div className="flex gap-2">
+            <Link to={"/login"}>
+              <button className="btn rounded-lg bg-pink-500 text-white w-[100px]">
+                Login
+              </button>
+            </Link>
+          </div>
         )}
       </div>
     </nav>

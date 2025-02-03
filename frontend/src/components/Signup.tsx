@@ -1,10 +1,6 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
-import { SignupInput } from "@/lib/types";
-import { LoaderCircle } from "lucide-react";
-import { useUser } from "@/stores/userStore";
+import { SignupInput } from "../lib/types";
+import { useUser } from "../stores/userStore";
 
 
 function Signup({ setIsLogin }: { setIsLogin: (value: boolean) => void }) {
@@ -23,91 +19,80 @@ function Signup({ setIsLogin }: { setIsLogin: (value: boolean) => void }) {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen ">
-      <Card className="w-full max-w-md p-4 ">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
-            Create an Account
-          </CardTitle>
-          <p className="text-center text-sm text-gray-600 mt-2">
-            Join us today to start your journey. It’s quick and easy to set up
-            your account!
-          </p>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignup} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium">
-                Name
-              </label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Enter your name"
-                className="mt-1"
-                required
-                value={formData?.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium">
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                className="mt-1"
-                required
-                value={formData?.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium">
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                className="mt-1"
-                required
-                value={formData?.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-            </div>
+    <div className="flex justify-center items-center min-h-screen">
+      <form
+        className="w-[500px] p-8 rounded-lg border border-base-200 shadow-md"
+        onSubmit={handleSignup}
+      >
+        <h1 className="text-3xl font-bold text-center mb-6">Create Account</h1>
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-base font-medium mb-2">
+            Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            className="input input-bordered w-full rounded-md"
+            id="name"
+            required
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, name: e.target.value })
+            }
+          />
+        </div>
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-base font-medium mb-2">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter your email"
+            className="input input-bordered w-full rounded-md"
+            id="email"
+            required
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="password"
+            className="block text-base font-medium mb-2"
+          >
+            Password <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="password"
+            placeholder="Enter your password"
+            className="input input-bordered w-full rounded-md"
+            id="password"
+            required
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+          />
+        </div>
+
+        <div>
+          <button className="w-full btn bg-pink-500 text-white" type="submit">
             {isLoading ? (
-              <Button disabled className="w-full py-2">
-                <LoaderCircle className="animate-spin" />
-                Please wait
-              </Button>
+              <span className="loading loading-dots loading-lg"></span>
             ) : (
-              <Button type="submit" className="w-full py-2">
-                Sign Up
-              </Button>
+              "Signup"
             )}
-          </form>
-          <div className="mt-6 text-center">
-            <p className="text-sm">
-              Already have an account?{" "}
-              <span
-                className="text-blue-500 underline cursor-pointer select-none"
-                onClick={() => setIsLogin(true)}
-              >
-                Login
-              </span>
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          </button>
+        </div>
+        <p className="text-gray-600 mt-4 text-center">
+          Already have an account?{" "}
+          <span
+            className="text-blue-500 underline cursor-pointer"
+            onClick={() => setIsLogin(true)}
+          >
+            Login
+          </span>
+        </p>
+      </form>
     </div>
   );
 }

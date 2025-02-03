@@ -18,4 +18,12 @@ export const useShop = create<shopStore>((set) => ({
       toast.error("Failed to create shop");
     }
   },
+  fetchMyShops: async()=>{
+    try {
+      const res = await axios.get(`${BACKEND_URL}/api/shop/my-shops`, {withCredentials: true});
+      return res.data || [];
+    } catch (error) {
+      return []
+    }
+  }
 }));

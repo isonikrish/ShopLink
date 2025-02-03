@@ -1,51 +1,62 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useUser } from "@/stores/userStore";
-import { LogOut, Store } from "lucide-react";
-import {Link} from 'react-router-dom'
+import { useUser } from "../stores/userStore";
+import { Bell, LogOut, Store } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
 function ProfileDropdown() {
   const { user, logout } = useUser();
+  const [open, setOpen] = useState(false);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 p-2 shadow-md">
-        <DropdownMenuItem className="flex items-center gap-3 p-3 cursor-pointer border-b">
-          <Avatar className="w-10 h-10">
-            <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="font-medium">{user?.name}</span>
-            <span className="text-sm text-muted-foreground">{user?.email}</span>
-          </div>
-        </DropdownMenuItem>
-        <Link to="/create-shop">
-        <DropdownMenuItem className="flex items-center gap-2 p-2 cursor-pointer hover:bg-muted">
-          <Store className="w-4 h-4" />
-          <span>Create Shop</span>
-        </DropdownMenuItem>
-        </Link>
-        <DropdownMenuItem
-          className="flex items-center gap-2 p-2 cursor-pointer hover:bg-muted"
-          onClick={(e) => {
-            e.preventDefault();
-            logout();
-          }}
-        >
-          <LogOut className="w-4 h-4" />
-          <span>Logout</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="bg-gray-600 text-neutral-content w-12 h-12 rounded-full flex items-center justify-center"
+      >
+        <span className="text-xl">{user?.name?.[0] || "U"}</span>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-2 w-52 shadow-md rounded-lg z-10 bg-base-100">
+          <ul className="p-2">
+            <li className="p-2 border-b border-base-200">
+              <Link to="/profile" className="flex items-center gap-2">
+                <div className="bg-gray-600 text-neutral-content w-7 h-7 rounded-full flex items-center justify-center">
+                  <span className="text-sm">{user?.name?.[0] || "U"}</span>
+                </div>
+
+                <div className="flex flex-col">
+                  <span className="font-medium">{user?.name}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {user?.email}
+                  </span>
+                </div>
+              </Link>
+            </li>
+            <li className="p-2">
+              <Link to="/my-shops">
+                <Store size={16} className="inline-block mr-2" />
+                My Shops
+              </Link>
+            </li>
+            <li className="p-2">
+              <Link to="/notifications">
+                <Bell size={16} className="inline-block mr-2" />
+                Notifications
+              </Link>
+            </li>
+
+            <li
+              className="p-2 cursor-pointer flex items-center border-t border-base-200"
+              onClick={logout}
+            >
+              <LogOut size={16} className="mr-2" />
+              Logout
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }
 

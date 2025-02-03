@@ -1,12 +1,8 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
-import { LoaderCircle } from "lucide-react";
 import { useUser } from "@/stores/userStore";
 
 function Login({ setIsLogin }: { setIsLogin: (value: boolean) => void }) {
-  const {login} = useUser();
+  const { login } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -20,76 +16,67 @@ function Login({ setIsLogin }: { setIsLogin: (value: boolean) => void }) {
     setIsLoading(false);
   };
 
-
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-full max-w-md p-4">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
-            Login
-          </CardTitle>
-          <p className="text-center text-sm text-gray-600 mt-2">
-            Welcome back! Please enter your credentials to access your account.
-          </p>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium">
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                className="mt-1"
-                required
-                value={formData?.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium">
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                className="mt-1"
-                required
-                value={formData?.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-            </div>
+      <form
+        className="w-[500px] p-8 rounded-lg border border-base-200 shadow-md"
+        onSubmit={handleLogin}
+      >
+        <h1 className="text-3xl font-bold text-center mb-6">Welcome Back</h1>
+
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-base font-medium mb-2">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter your email"
+            className="input input-bordered w-full  rounded-md"
+            id="email"
+            required
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="password"
+            className="block text-base font-medium mb-2"
+          >
+            Password <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="password"
+            placeholder="Enter your password"
+            className="input input-bordered w-full rounded-md"
+            id="password"
+            required
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+          />
+        </div>
+
+        <div>
+          <button className="w-full btn bg-pink-500 text-white" type="submit">
             {isLoading ? (
-              <Button disabled className="w-full py-2">
-                <LoaderCircle className="animate-spin" />
-                Please wait
-              </Button>
+              <span className="loading loading-dots loading-lg"></span>
             ) : (
-              <Button type="submit" className="w-full py-2">
-                Login
-              </Button>
+              "Login"
             )}
-          </form>
-          <div className="mt-6 text-center">
-            <p className="text-sm">
-              Don't have an account?{" "}
-              <span
-                className="text-blue-500 underline cursor-pointer select-none"
-                onClick={() => setIsLogin(false)}
-              >
-                Signup
-              </span>
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          </button>
+        </div>
+        <p className="text-gray-600 mt-4 text-center">
+          Don't have an account?{" "}
+          <span
+            className="text-blue-500 underline cursor-pointer"
+            onClick={() => setIsLogin(false)}
+          >
+            Sign up
+          </span>
+        </p>
+      </form>
     </div>
   );
 }

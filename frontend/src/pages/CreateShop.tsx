@@ -1,23 +1,4 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useShop } from "@/stores/shopStore";
-import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
 function CreateShop() {
@@ -33,8 +14,8 @@ function CreateShop() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleCurrencyChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, currency: value }));
+  const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData((prev) => ({ ...prev, currency: e.target.value }));
   };
 
   const handleCreateShop = async (e: React.FormEvent) => {
@@ -46,54 +27,67 @@ function CreateShop() {
 
   return (
     <div className="flex justify-center items-center min-h-screen select-none">
+      <form
+        className="w-[500px] p-8 rounded-lg border border-base-200 shadow-md"
+        onSubmit={handleCreateShop}
+      >
+        <h1 className="text-3xl font-extrabold text-center">
+          Create Your Shop
+        </h1>
+        <p className="text-lg text-center text-gray-600 mb-10">
+          Create your new shop in one-click.
+        </p>
 
-    <Card className="w-[500px]">
-      <CardHeader className="flex items-center">
-        <CardTitle>Create Your Shop</CardTitle>
-        <CardDescription>Create your new shop in one-click.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleCreateShop}>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Shop Name</Label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Name of your shop"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mt-4 ">
-              <Label htmlFor="currency">Shop Currency</Label>
-              <Select onValueChange={handleCurrencyChange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a currency" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="usd">USD - US Dollar</SelectItem>
-                  <SelectItem value="inr">INR - Indian Rupee</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+        <div className="mb-6">
+          <label htmlFor="name" className="block text-base font-medium mb-2">
+            Shop Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter Shop Name"
+            className="input input-bordered w-full rounded-md"
+            id="name"
+            required
+            onChange={handleChange}
+            name="name"
+          />
+        </div>
 
-          <CardFooter className="flex justify-between mt-4">
+        <div className="mb-6">
+          <label
+            htmlFor="currency"
+            className="block text-base font-medium mb-2"
+          >
+            Shop Currency <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="currency"
+            className="select select-bordered w-full rounded-md"
+            value={formData.currency}
+            onChange={handleCurrencyChange}
+            required
+          >
+            <option disabled value="">
+              Select Currency
+            </option>
+            <option value="usd">USD - US Dollar</option>
+            <option value="inr">INR - Indian Rupee</option>
+          </select>
+        </div>
+
+        <div>
+          <button
+            className="w-full btn bg-pink-500 text-white text-lg"
+            type="submit"
+          >
             {isLoading ? (
-              <Button disabled className="w-full py-2">
-                <LoaderCircle className="animate-spin" />
-                Please wait
-              </Button>
+              <span className="loading loading-dots loading-lg"></span>
             ) : (
-              <Button type="submit" className="w-full py-2">
-                Create
-              </Button>
+              "Create"
             )}
-          </CardFooter>
-        </form>
-      </CardContent>
-    </Card>
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
