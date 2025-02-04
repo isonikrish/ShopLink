@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import CreateShop from "./pages/CreateShop";
 import { ProtectedRoute } from "./lib/protectRoute";
 import MyShops from "./pages/MyShops";
+import ManageShop from "./pages/ManageShop";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -39,6 +40,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/manage/:shopname" element={<ManageShop />}/>
       </Routes>
       <Toaster />
     </div>

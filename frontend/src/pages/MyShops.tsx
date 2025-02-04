@@ -2,6 +2,7 @@ import { useShop } from "@/stores/shopStore";
 import { useUser } from "@/stores/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { SquareArrowOutUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function MyShops() {
   const { fetchMyShops } = useShop();
@@ -39,9 +40,9 @@ function MyShops() {
                 <div className="card-actions">
                   <div className="badge badge-outline">50 Products</div>
                 </div>
-                <button className="btn w-full rounded-md bg-pink-500 text-white mt-4">
-                  Manage Shop <SquareArrowOutUpRight size={16}/>
-                </button>
+                <Link className="btn w-full rounded-md bg-pink-500 text-white mt-4" to={`/manage/${shop?.name}`}>
+                  Manage Shop <SquareArrowOutUpRight size={16}/> 
+                </Link>
               </div>
             </div>
             </>

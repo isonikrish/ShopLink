@@ -6,31 +6,46 @@ export type SignupInput = {
   name: string;
 } & LoginInput;
 export type User = {
-  id: number,
-  name: string,
-  email: string
-  
-}
+  id: number;
+  name: string;
+  email: string;
+};
 
-export type createShop= {
-  name: string,
-  currency: string
-}
-export type Shop= {
-  id: number,
-  ownerId: number,
-  owner: User,
-} & createShop
+export type createShop = {
+  name: string;
+  currency: string;
+};
+export type Shop = {
+  id: number;
+  ownerId: number;
+  owner: User;
+  logo: any;
+  theme: string | null;
+  description: string | null;
+  facebook_url: string | null;
+  instagram_url: string | null;
+  youtube_url: string | null;
+  x_url: string | null;
+  email: string | null;
+  phone: number | null;
+  address: string | null;
+  createdAt: Date;
+  updateAt: Date;
+} & createShop;
+
 
 export type userStore = {
-  user: User | null,
-  fetchUser: () => void,
-  logout: ()=> void,
-  signup: (formData: SignupInput) => void,
-  login: (formData: LoginInput) => void,
-}
+  user: User | null;
+  fetchUser: () => void;
+  logout: () => void;
+  signup: (formData: SignupInput) => void;
+  login: (formData: LoginInput) => void;
+};
 
 export type shopStore = {
-  createShop: (formData: createShop) => void,
-  fetchMyShops: () => Promise<Shop[]>
-}
+  createShop: (formData: createShop) => void;
+  fetchMyShops: () => Promise<Shop[]>;
+  MyShop: Shop | null;
+  setMyShop: (shop: Shop) => void;
+  generalUpdateShop: (id: number, data: FormData) => void;
+};
