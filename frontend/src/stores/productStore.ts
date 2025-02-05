@@ -25,4 +25,16 @@ export const useProduct = create<productStore>(() => ({
       toast.error("Failed to add product");
     }
   },
+  getProduct: async (id) => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/api/product/get-product/${id}`, {
+        withCredentials: true
+      });
+      if(res.status === 200){
+        return res.data;
+      }
+    } catch (error) {
+      return null;
+    }
+  }
 }));

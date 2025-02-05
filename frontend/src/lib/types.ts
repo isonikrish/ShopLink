@@ -32,6 +32,8 @@ export type Shop = {
   createdAt: Date;
   updateAt: Date;
   categories: string[];
+  products: any;
+  variants: any;
 } & createShop;
 
 export type userStore = {
@@ -54,4 +56,5 @@ export type shopStore = {
 };
 export type productStore = {
   addNewProduct: (id:number, fromData: any) => Promise<any>;
+  getProduct: (id:number | null) => Promise<any>;
 }

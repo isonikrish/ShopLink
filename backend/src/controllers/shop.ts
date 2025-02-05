@@ -48,6 +48,7 @@ export async function handleGetMyShops(c: Context) {
             name: true,
           },
         },
+
       },
     });
     if (myShops.length === 0) {
@@ -74,6 +75,8 @@ export async function handleGetMyShop(c: Context) {
             name: true,
           },
         },
+        products: true,
+        variants: true
       },
     });
     if (!myShop) {

@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./lib/protectRoute";
 import MyShops from "./pages/MyShops";
 import ManageShop from "./pages/ManageShop";
 import AddNewProduct from "./pages/AddNewProduct";
+import ManageProduct from "./pages/ManageProduct";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -55,6 +56,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AddNewProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manage/:shopname/p/:id"
+          element={
+            <ProtectedRoute>
+              <ManageProduct />
             </ProtectedRoute>
           }
         />

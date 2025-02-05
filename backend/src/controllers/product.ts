@@ -44,3 +44,45 @@ export async function handleNewProduct(c: Context) {
     return c.json({ msg: "Internal Server Error" }, 500);
   }
 }
+
+export async function handleGetProduct(c: Context){
+  const prisma = prismaClient(c);
+  const id = parseInt(c.req.param("id"));
+  try {
+    const product = await prisma.product.findFirst({
+      where: {
+        id
+      }
+    })
+    if(!product) return c.json({msg: "No product found"}, 404);
+
+    return c.json(product, 200)
+  } catch (error) {
+    return c.json({msg: "Internal Server Error"},500);
+  }
+}
+
+export async function handleAddVariant(c:Context){
+  const data = await c.req.json();
+  const id = parseInt(c.req.param("id"));
+  const prisma = prismaClient(c);
+  try {
+    const {variantType, variantName} = data;
+
+    if(!variantType || !variantName) return c.json({msg: "Invalid Inputs"},400);
+
+    const newVariant = await prisma.variant.create({
+      data: {
+        productId: id,
+        variantType,
+        variantName
+      }
+    });
+
+    if(!newVariant) return c.json({msg: "Variant not added"}, 400);
+
+    return c.json({msg: "Added new variant"},200)
+  }catch(error){
+    return c.json({msg: "Internal Server Error"},500)
+  }
+}

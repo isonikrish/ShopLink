@@ -19,6 +19,7 @@ function AddNewProduct() {
     productImage: File,
     price: 0,
     category: "",
+    stock: 0,
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -83,7 +84,7 @@ function AddNewProduct() {
     data.append("category", formData.category);
     data.append("price", formData.price);
     data.append("productImage", formData.productImage);
-
+    data.append("stock", formData.stock);
     if (shop?.id) {
       const response = await addNewProduct(shop?.id, data);
       navigate(`/manage/${shopname}`);
@@ -192,7 +193,6 @@ function AddNewProduct() {
                   required
                   onChange={handleChange}
                   name="price"
-                  value={formData.price}
                   step="0.01"
                   min="0"
                   inputMode="decimal"
@@ -202,32 +202,56 @@ function AddNewProduct() {
                 />
               </div>
             </div>
-
             <div className="mb-6">
               <label
-                htmlFor="category"
+                htmlFor="stock"
                 className="block text-base font-medium mb-2"
               >
-                Product Category <span className="text-red-500">*</span>
+                Stock Quantity <span className="text-red-500">*</span>
               </label>
-              <select
-                id="category"
-                className="select select-bordered w-full rounded-md"
-                value={formData.category}
-                name="category"
-                onChange={handleSelectChange}
-                required
-              >
-                <option disabled value="">
-                  Select Category
-                </option>
-                {shop?.categories.map((category, index) => (
-                  <option value={category} key={index}>
-                    {category}
-                  </option>
-                ))}
-              </select>
+              <div className="flex items-center border rounded-md">
+                <input
+                  type="number"
+                  placeholder="Enter stock quantity"
+                  className="input input-bordered w-full rounded-md pl-2"
+                  id="stock"
+                  required
+                  onChange={handleChange}
+                  name="stock"
+                  step="0.01"
+                  min="0"
+                  inputMode="decimal"
+                  onInput={(e: any) => {
+                    e.target.value = e.target.value.replace(/[^0-9.]/g, "");
+                  }}
+                />
+              </div>
             </div>
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="category"
+              className="block text-base font-medium mb-2"
+            >
+              Product Category <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="category"
+              className="select select-bordered w-full rounded-md"
+              value={formData.category}
+              name="category"
+              onChange={handleSelectChange}
+              required
+            >
+              <option disabled value="">
+                Select Category
+              </option>
+              {shop?.categories.map((category, index) => (
+                <option value={category} key={index}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <button
