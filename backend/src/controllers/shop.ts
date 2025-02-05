@@ -165,23 +165,12 @@ export async function handleChangeApperance(c: Context) {
   }
   const data = await c.req.json();
   try {
-    const shop = await prisma.shop.findFirst({
-      where: { id: shopId },
-    });
-    if (!shop) {
-      return c.json({ msg: "Shop not found" }, 404);
-    }
-    const isOwner = shop.ownerId === user.id;
-    if (!isOwner) {
-      return c.json({ msg: "You can't access this" }, 403);
-    }
-
     const { theme } = data;
     if (!theme) {
       return c.json({ msg: "Invalid inputs" }, 400);
     }
     await prisma.shop.update({
-      where: { id: shop?.id },
+      where: { id: shopId },
       data: {
         theme,
       },
@@ -203,17 +192,6 @@ export async function handleContactUpdate(c: Context) {
   }
   const data = await c.req.json();
   try {
-    const shop = await prisma.shop.findFirst({
-      where: { id: shopId },
-    });
-    if (!shop) {
-      return c.json({ msg: "Shop not found" }, 404);
-    }
-    const isOwner = shop.ownerId === user.id;
-    if (!isOwner) {
-      return c.json({ msg: "You can't access this" }, 403);
-    }
-
     const {
       email,
       phone,
@@ -225,7 +203,7 @@ export async function handleContactUpdate(c: Context) {
     } = data;
 
     await prisma.shop.update({
-      where: { id: shop?.id },
+      where: { id: shopId },
       data: {
         email: email || null,
         phone: phone || null,
@@ -253,31 +231,20 @@ export async function handleAddCategory(c: Context) {
   }
   const data = await c.req.json();
   try {
-    const shop = await prisma.shop.findFirst({
-      where: { id: shopId },
-    });
-    if (!shop) {
-      return c.json({ msg: "Shop not found" }, 404);
-    }
-    const isOwner = shop.ownerId === user.id;
-    if (!isOwner) {
-      return c.json({ msg: "You can't access this" }, 403);
-    }
-
     const { category } = data;
     if (!category || typeof category !== "string") {
       return c.json({ msg: "Invalid category name" }, 400);
     }
 
     await prisma.shop.update({
-      where: { id: shop?.id },
+      where: { id: shopId },
       data: {
         categories: {
           push: category,
         },
       },
     });
-    return c.json({ msg: "Category added successfully" },200);
+    return c.json({ msg: "Category added successfully" }, 200);
   } catch (error) {
     return c.json({ msg: "Internal server error" }, 500);
   }

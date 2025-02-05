@@ -1,13 +1,10 @@
-import { BACKEND_URL } from "@/lib/backend_url";
 import { useShop } from "@/stores/shopStore";
-import axios from "axios";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { FaXTwitter } from "react-icons/fa6";
 
 function ContactCustomize() {
-  const { MyShop } = useShop();
+  const { MyShop, contactUpdateShop } = useShop();
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -30,22 +27,8 @@ function ContactCustomize() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    try {
-      const res = await axios.put(
-        `${BACKEND_URL}/api/shop/contact-update/${MyShop?.id}`,
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.status === 200) {
-        toast.success("Contact Info Updated");
-      }
-    } catch (error) {
-      toast.error("Error in updating contact info");
-    } finally {
-      setIsLoading(false);
-    }
+    if (MyShop?.id) await contactUpdateShop(MyShop?.id, formData);
+    setIsLoading(false);
   };
 
   return (

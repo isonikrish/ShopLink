@@ -1,32 +1,16 @@
 import { useState } from "react";
 import { THEMES } from "@/lib/theme";
 import { useShop } from "@/stores/shopStore";
-import axios from "axios";
-import { BACKEND_URL } from "@/lib/backend_url";
-import toast from "react-hot-toast";
 
 const ApperanceCustomize = () => {
-  const { MyShop } = useShop();
+  const { MyShop , apperanceUpdateShop} = useShop();
   const [selectedTheme, setSelectedTheme] = useState(MyShop?.theme||THEMES[0]);
   const [isLoading, setIsLoading] = useState(false);
- 
 
   const updateApperance = async () => {
-    try {
-      setIsLoading(true)
-      const res = await axios.put(
-        `${BACKEND_URL}/api/shop/change-apperance/${MyShop?.id}`,
-        { theme: selectedTheme },
-        { withCredentials: true }
-      );
-      if (res.status === 200) {
-        toast.success("Theme Updated");
-      }
-    } catch (error) {
-      toast.error("Error in theme updating");
-    }finally{
-      setIsLoading(false)
-    }
+    setIsLoading(true)
+    if(MyShop?.id) await apperanceUpdateShop(MyShop.id, selectedTheme);
+    setIsLoading(false)
   };
 
   return (
@@ -46,7 +30,7 @@ const ApperanceCustomize = () => {
               onClick={updateApperance}
             >
               {isLoading ? (
-                <span className="loading loading-dots loading-lg"></span>
+                <span className="loading loading-dots loading-md"></span>
               ) : (
                 "Update Theme"
               )}

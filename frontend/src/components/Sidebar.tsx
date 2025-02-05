@@ -60,12 +60,12 @@ const Sidebar = ({ setMenu, menu }: sidebarProp) => {
 
           <div
             className={`flex items-center px-4 py-6 ${
-              menu === "sales" ? "bg-base-200" : ""
+              menu === "orders" ? "bg-base-200" : ""
             } hover:rounded-lg cursor-pointer border-b border-base-300`}
-            onClick={() => setMenu("sales")}
+            onClick={() => setMenu("orders")}
           >
             <ShoppingCart className="w-5 h-5" />
-            <span className="mx-4 font-medium">Sales</span>
+            <span className="mx-4 font-medium">Orders</span>
           </div>
 
           <div

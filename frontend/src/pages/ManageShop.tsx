@@ -1,4 +1,5 @@
 import CustomizeShop from "@/components/CustomizeShop";
+import ProductsList from "@/components/ProductsList";
 import Sidebar from "@/components/Sidebar";
 import { BACKEND_URL } from "@/lib/backend_url";
 import { useShop } from "@/stores/shopStore";
@@ -38,6 +39,7 @@ function ManageShop() {
       <Sidebar setMenu={setMenu} menu={menu} />
       <div className="w-full">
         {menu === "customize" && <CustomizeShop />}
+        {menu === "products" && <ProductsList />}
       </div>
     </div>
   );

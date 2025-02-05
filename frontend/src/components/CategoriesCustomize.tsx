@@ -1,34 +1,20 @@
 import { useRef, useState } from "react";
 import { Plus, Trash } from "lucide-react";
-import axios from "axios";
-import { BACKEND_URL } from "@/lib/backend_url";
 import { useShop } from "@/stores/shopStore";
-import toast from "react-hot-toast";
+
 
 function CategoriesCustomize() {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const { MyShop } = useShop();
+  const { MyShop , categoryUpdateShop} = useShop();
   const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const openModal = () => {
     modalRef.current?.showModal();
   };
   const handleAddCategory = async () => {
-    try {
-      setIsLoading(true);
-      const res = await axios.put(
-        `${BACKEND_URL}/api/shop/add-shop-category/${MyShop?.id}`,
-        { category },
-        { withCredentials: true }
-      );
-      if (res.status === 200) {
-        toast.success("Category Added");
-      }
-    } catch (error) {
-      toast.error("Error in adding category");
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true)
+    if(MyShop?.id) await categoryUpdateShop(MyShop.id, category);
+    setIsLoading(false)
   };
   return (
     <div className="p-6 rounded-lg">

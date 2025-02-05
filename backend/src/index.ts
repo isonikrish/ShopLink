@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors';
 import userRoutes from './routes/user';
 import shopRoutes from './routes/shop';
+import productRoutes from './routes/product';
 
 const app = new Hono()
 app.use(
@@ -19,6 +20,6 @@ app.use("*", (c, next) => {
 
 app.route("/api/user", userRoutes);
 app.route("/api/shop", shopRoutes);
-
+app.route("/api/product", productRoutes);
 
 export default app

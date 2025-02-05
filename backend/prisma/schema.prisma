@@ -46,8 +46,7 @@ model Product {
   productImage String
   shopId       Int
   shop         Shop      @relation(fields: [shopId], references: [id], onDelete: Cascade)
-  hasVariants  Boolean   @default(true)
-  price        Float?
+  price        Float
   variants     Variant[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt()
@@ -60,7 +59,6 @@ model Variant {
   product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   variantType String
   variantName String
-  price       Float
   stock       Int
   sku         String?
 }

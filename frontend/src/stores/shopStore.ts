@@ -49,4 +49,48 @@ export const useShop = create<shopStore>((set) => ({
       toast.error("Error in updating shop");
     }
   },
+  contactUpdateShop: async (id, data) => {
+    try {
+      const res = await axios.put(
+        `${BACKEND_URL}/api/shop/contact-update/${id}`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.status === 200) {
+        toast.success("Contact Info Updated");
+      }
+    } catch (error) {
+      toast.error("Error in updating contact info");
+    }
+  },
+  apperanceUpdateShop: async (id, selectedTheme) => {
+    try {
+      const res = await axios.put(
+        `${BACKEND_URL}/api/shop/change-apperance/${id}`,
+        { theme: selectedTheme },
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        toast.success("Theme Updated");
+      }
+    } catch (error) {
+      toast.error("Error in theme updating");
+    }
+  },
+  categoryUpdateShop: async (id, category) => {
+    try {
+      const res = await axios.put(
+        `${BACKEND_URL}/api/shop/add-shop-category/${id}`,
+        { category },
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        toast.success("Category Added");
+      }
+    } catch (error) {
+      toast.error("Error in adding category");
+    }
+  },
 }));

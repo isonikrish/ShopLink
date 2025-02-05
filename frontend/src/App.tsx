@@ -8,6 +8,7 @@ import CreateShop from "./pages/CreateShop";
 import { ProtectedRoute } from "./lib/protectRoute";
 import MyShops from "./pages/MyShops";
 import ManageShop from "./pages/ManageShop";
+import AddNewProduct from "./pages/AddNewProduct";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -18,7 +19,6 @@ function App() {
     }
   }, []);
 
-  
   return (
     <div>
       <Navbar />
@@ -40,7 +40,24 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/manage/:shopname" element={<ManageShop />}/>
+        <Route
+          path="/manage/:shopname"
+          element={
+            <ProtectedRoute>
+              <ManageShop />
+            </ProtectedRoute>
+          }
+        >
+          
+        </Route>
+        <Route
+          path="/manage/:shopname/add-new"
+          element={
+            <ProtectedRoute>
+              <AddNewProduct />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Toaster />
     </div>
