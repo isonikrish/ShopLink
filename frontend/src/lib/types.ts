@@ -31,6 +31,7 @@ export type Shop = {
   address: string | null;
   createdAt: Date;
   updateAt: Date;
+  categories: string[];
 } & createShop;
 
 

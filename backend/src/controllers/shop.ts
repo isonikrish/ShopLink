@@ -223,7 +223,7 @@ export async function handleContactUpdate(c: Context) {
       instagram_url,
       x_url,
     } = data;
-    
+
     await prisma.shop.update({
       where: { id: shop?.id },
       data: {
@@ -239,7 +239,46 @@ export async function handleContactUpdate(c: Context) {
 
     return c.json({ msg: "Contact Info Updated" }, 200);
   } catch (error) {
-    console.error(error)
     return c.json({ msg: "Internal Server Error" }, 500);
+  }
+}
+
+export async function handleAddCategory(c: Context) {
+  const prisma = prismaClient(c);
+  const id = c.req.param("id");
+  const shopId = parseInt(id, 10);
+  const user = c.get("user");
+  if (isNaN(shopId) || !user) {
+    return c.json({ msg: "Invalid request" }, 400);
+  }
+  const data = await c.req.json();
+  try {
+    const shop = await prisma.shop.findFirst({
+      where: { id: shopId },
+    });
+    if (!shop) {
+      return c.json({ msg: "Shop not found" }, 404);
+    }
+    const isOwner = shop.ownerId === user.id;
+    if (!isOwner) {
+      return c.json({ msg: "You can't access this" }, 403);
+    }
+
+    const { category } = data;
+    if (!category || typeof category !== "string") {
+      return c.json({ msg: "Invalid category name" }, 400);
+    }
+
+    await prisma.shop.update({
+      where: { id: shop?.id },
+      data: {
+        categories: {
+          push: category,
+        },
+      },
+    });
+    return c.json({ msg: "Category added successfully" },200);
+  } catch (error) {
+    return c.json({ msg: "Internal server error" }, 500);
   }
 }

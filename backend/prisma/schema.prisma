@@ -32,9 +32,37 @@ model Shop {
   email         String?
   phone         String?
   address       String?
+  categories    String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  products Product[]
+}
+
+model Product {
+  id           Int       @id @default(autoincrement())
+  name         String
+  description  String
+  productImage String
+  shopId       Int
+  shop         Shop      @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  hasVariants  Boolean   @default(true)
+  price        Float?
+  variants     Variant[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt()
+  category     String
+}
+
+model Variant {
+  id          Int     @id @default(autoincrement())
+  productId   Int
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantType String
+  variantName String
+  price       Float
+  stock       Int
+  sku         String?
 }
 
 enum Currency {

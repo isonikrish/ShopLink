@@ -3,6 +3,7 @@ import { useState } from "react";
 import GeneralCustomize from "./GeneralCustomize";
 import ApperanceCustomize from "./ApperanceCustomize";
 import ContactCustomize from "./ContactCustomize";
+import CategoriesCustomize from "./CategoriesCustomize";
 
 function CustomizeShop() {
   const { MyShop } = useShop();
@@ -19,8 +20,10 @@ function CustomizeShop() {
         <ul className="menu menu-horizontal bg-base-200 rounded-lg">
           {[
             { key: "general", label: "General Settings" },
+            { key: "categories", label: "Categories" },
             { key: "appearance", label: "Appearance" },
             { key: "contact", label: "Contact Details" },
+            
           ].map((tab) => (
             <li key={tab.key} onClick={() => setCustomizeMenu(tab.key)}>
               <a
@@ -49,6 +52,11 @@ function CustomizeShop() {
         {customizeMenu === "contact" && (
           <div className="card border border-base-300 p-4">
             <ContactCustomize />
+          </div>
+        )}
+        {customizeMenu === "categories" && (
+          <div className="card border border-base-300 p-4">
+            <CategoriesCustomize />
           </div>
         )}
 
