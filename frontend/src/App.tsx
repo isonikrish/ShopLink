@@ -10,6 +10,7 @@ import MyShops from "./pages/MyShops";
 import ManageShop from "./pages/ManageShop";
 import AddNewProduct from "./pages/AddNewProduct";
 import ManageProduct from "./pages/ManageProduct";
+import Shop from "./pages/Shop";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -48,9 +49,7 @@ function App() {
               <ManageShop />
             </ProtectedRoute>
           }
-        >
-          
-        </Route>
+        ></Route>
         <Route
           path="/manage/:shopname/add-new"
           element={
@@ -67,6 +66,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/shop/:shopname" element={<Shop />} />
       </Routes>
       <Toaster />
     </div>

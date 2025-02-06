@@ -17,7 +17,7 @@ export async function handleNewProduct(c: Context) {
         400
       );
     }
-    const { name, description, category, price, productImage } =
+    const { name, description, category, price, productImage, stock } =
       validatedData.data;
     const bucket = c.env.HONO_R2_UPLOAD;
     const fileKey = `/product-images/${name}-${id}`;
@@ -35,6 +35,7 @@ export async function handleNewProduct(c: Context) {
         price: parseFloat(price),
         productImage: fileUrl,
         shopId: id,
+        stock: parseFloat(stock),
       },
     });
     if (!newProduct) return c.json({ msg: "Error creating new product" }, 400);

@@ -30,4 +30,5 @@ export const addProductSchema = z.object({
   category: z.string(),
   price: z.string(),
   productImage: z.any(),
+  stock:z.string(),
 });

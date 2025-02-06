@@ -48,7 +48,7 @@ export async function handleGetMyShops(c: Context) {
             name: true,
           },
         },
-
+        products: true,
       },
     });
     if (myShops.length === 0) {
@@ -63,10 +63,10 @@ export async function handleGetMyShops(c: Context) {
 
 export async function handleGetMyShop(c: Context) {
   const prisma = prismaClient(c);
-  const user = c.get("user");
+  const shopname = c.req.param("shopname");
   try {
     const myShop = await prisma.shop.findFirst({
-      where: { ownerId: user.id },
+      where: { name: shopname },
       include: {
         owner: {
           select: {
@@ -75,8 +75,11 @@ export async function handleGetMyShop(c: Context) {
             name: true,
           },
         },
-        products: true,
-        variants: true
+        products: {
+          include: {
+            variants: true,
+          },
+        },
       },
     });
     if (!myShop) {

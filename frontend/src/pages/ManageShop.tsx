@@ -14,7 +14,7 @@ function ManageShop() {
   const { setMyShop } = useShop();
 
   const { data } = useQuery({
-    queryKey: ["shop", shopname],
+    queryKey: ["manage-shop", shopname],
     queryFn: async () => {
       try {
         const res = await axios.get(

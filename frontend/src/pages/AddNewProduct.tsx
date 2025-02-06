@@ -32,7 +32,14 @@ function AddNewProduct() {
         ...prev,
         [name]: isNaN(parsedPrice) ? 0 : parsedPrice,
       }));
-    } else {
+    } else if(name === "stock"){
+      const parsedStock = parseFloat(value);
+      setFormData((prev)=>({
+        ...prev,
+        [name]: isNaN(parsedStock) ? 0 : parsedStock,
+      }))
+    }
+    else {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -89,6 +96,7 @@ function AddNewProduct() {
       const response = await addNewProduct(shop?.id, data);
       navigate(`/manage/${shopname}`);
     }
+
     setIsLoading(false);
   };
 
@@ -218,7 +226,6 @@ function AddNewProduct() {
                   required
                   onChange={handleChange}
                   name="stock"
-                  step="0.01"
                   min="0"
                   inputMode="decimal"
                   onInput={(e: any) => {
