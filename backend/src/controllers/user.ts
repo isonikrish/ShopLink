@@ -108,7 +108,8 @@ export const handleGetMe = async (c: Context) => {
       select: {
         id: true,
         name: true,
-        email: true, //TODO: ADD MORE FIELDS IF NEEDED
+        email: true,
+        cart: true,
       },
     });
     if (!user) return c.json({ msg: "User doen't exists" }, 400);
@@ -117,3 +118,48 @@ export const handleGetMe = async (c: Context) => {
     return c.json({ msg: "Internal Server Error" }, 500);
   }
 };
+
+export async function handleAddToCart(c: Context) {
+  const prisma = prismaClient(c);
+  const user = c.get("user");
+  try {
+    const data = await c.req.json();
+    const { productId, selectedVariants } = data;
+    if (!productId || !selectedVariants) {
+      return c.json({ msg: "No Data provided" }, 400);
+    }
+    const newCartItem = await prisma.cartItem.create({
+      data: {
+        userId: parseInt(user.id),
+        productId: parseInt(productId),
+        selectedVariants,
+      },
+    });
+    if (!newCartItem) return c.json({ msg: "Item not added in cart" }, 400);
+    return c.json({ msg: "Added to cart" }, 200);
+  } catch (error) {
+    return c.json({ msg: "Internal Server Error" }, 500);
+  }
+}
+export async function handleGetCart(c: Context) {
+  const prisma = prismaClient(c);
+  const user = c.get("user");
+  try {
+    const cart = await prisma.cartItem.findMany({
+      where: {
+        userId: user.id
+      },
+      include: {
+        product: {
+          include: {
+            shop: true
+          }
+        }
+      }
+    });
+    if (cart.length === 0) return c.json({ msg: "No item found in cart" }, 400);
+    return c.json(cart, 200);
+  } catch (error) {
+    return c.json({ msg: "Internal Server Error" }, 500);
+  }
+}

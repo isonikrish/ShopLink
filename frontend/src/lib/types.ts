@@ -9,6 +9,7 @@ export type User = {
   id: number;
   name: string;
   email: string;
+  cart: any;
 };
 
 export type createShop = {
@@ -42,6 +43,7 @@ export type userStore = {
   logout: () => void;
   signup: (formData: SignupInput) => void;
   login: (formData: LoginInput) => void;
+  addToCart: (formData: any) => void;
 };
 
 export type shopStore = {

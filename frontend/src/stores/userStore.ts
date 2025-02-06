@@ -57,4 +57,20 @@ export const useUser = create<userStore>((set) => ({
       toast.error("Login Failed");
     }
   },
+  addToCart: async (formData) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}/api/user/add-to-cart`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.status === 200) {
+        toast.success("Added");
+      }
+    } catch (error) {
+      toast.error("Failed to add in cart");
+    }
+  },
 }));

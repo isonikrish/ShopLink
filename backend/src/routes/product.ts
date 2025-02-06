@@ -8,5 +8,4 @@ const productRoutes = new Hono();
 productRoutes.post("/new-product/:id",protectRoute, isOwner, handleNewProduct);
 productRoutes.get("/get-product/:id", protectRoute, handleGetProduct);
 productRoutes.post("/add-variant/:id", protectRoute, handleAddVariant);
-
 export default productRoutes;

@@ -9,24 +9,29 @@ function Navbar() {
 
   return (
     <nav className="flex items-center justify-between py-3 px-4 border border-b shadow-sm">
-
       <Link className="w-[130px] cursor-pointer" to={"/"}>
         <img src={logo} className="w-full h-full object-contain" />
       </Link>
 
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-4">
-          <Link to="/wishlist" className="relative text-gray-700 hover:text-pink-500">
+          <Link
+            to="/wishlist"
+            className="relative text-gray-700 hover:text-pink-500"
+          >
             <Heart size={30} />
             <span className="absolute top-0 right-0 text-xs text-white bg-pink-500 rounded-full w-4 h-4 flex items-center justify-center">
               3
             </span>
           </Link>
 
-          <Link to="/cart" className="relative text-gray-700 hover:text-pink-500">
+          <Link
+            to="/cart"
+            className="relative text-gray-700 hover:text-pink-500"
+          >
             <ShoppingBag size={30} />
             <span className="absolute top-0 right-0 text-xs text-white bg-pink-500 rounded-full w-4 h-4 flex items-center justify-center">
-              5
+              {user?.cart?.length}
             </span>
           </Link>
         </div>
@@ -34,7 +39,7 @@ function Navbar() {
           <div className="flex items-center gap-4">
             <Link
               className="btn w-36 rounded-lg bg-pink-500 text-white flex items-center justify-center gap-2 py-2 px-4"
-              to={'/create-shop'}
+              to={"/create-shop"}
             >
               <Store className="w-5 h-5" />
               <span>Create Shop</span>

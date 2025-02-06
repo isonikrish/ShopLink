@@ -53,7 +53,13 @@ export async function handleGetProduct(c: Context){
     const product = await prisma.product.findFirst({
       where: {
         id
+      },
+      include: {
+        shop: true,
+        variants: true,
+        cart: true
       }
+
     })
     if(!product) return c.json({msg: "No product found"}, 404);
 

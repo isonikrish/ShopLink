@@ -11,6 +11,8 @@ import ManageShop from "./pages/ManageShop";
 import AddNewProduct from "./pages/AddNewProduct";
 import ManageProduct from "./pages/ManageProduct";
 import Shop from "./pages/Shop";
+import Product from "./pages/Product";
+import Cart from "./pages/Cart";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -67,6 +69,15 @@ function App() {
           }
         />
         <Route path="/shop/:shopname" element={<Shop />} />
+        <Route path="/product/:id" element={<Product />}/>
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Toaster />
     </div>
