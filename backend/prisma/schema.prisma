@@ -15,6 +15,7 @@ model User {
   password String
   shops    Shop[]
   cart     CartItem[]
+  orders   Order[]
 }
 
 model Shop {
@@ -70,6 +71,28 @@ model CartItem {
   productId        Int
   product          Product @relation(fields: [productId], references: [id])
   selectedVariants Json
-  quantity Int @default(1)
+  quantity         Int     @default(1)
+  orderId          Int?
+  order            Order?  @relation(fields: [orderId], references: [id])
 }
- 
+
+model Order {
+  id      Int         @id @default(autoincrement())
+  phone   String
+  country String
+  state   String
+  city    String
+  address String
+  userId  Int
+  user    User        @relation(fields: [userId], references: [id])
+  items   CartItem[]
+  status  OrderStatus @default(placed)
+}
+
+enum OrderStatus {
+  placed
+  dispatched //shipped order
+  out //out for delivery
+  delivered // order delivered
+  cancelled // order canceled
+}

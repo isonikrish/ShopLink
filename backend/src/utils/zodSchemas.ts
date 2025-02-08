@@ -31,3 +31,12 @@ export const addProductSchema = z.object({
   productImage: z.any(),
   stock:z.string(),
 });
+
+export const placeOrderSchema = z.object({
+  phone: z.string(),
+  country: z.string(),
+  state: z.string(),
+  city: z.string(),
+  address: z.string(),
+
+})

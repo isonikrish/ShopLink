@@ -1,5 +1,9 @@
 import { Context } from "hono";
-import { loginSchema, signupSchema } from "../utils/zodSchemas";
+import {
+  loginSchema,
+  placeOrderSchema,
+  signupSchema,
+} from "../utils/zodSchemas";
 import { prismaClient } from "../utils/prismaClient";
 import { passwordCompare, passwordHash } from "../utils/passwordHash";
 import { generateTokenAndSetCookie } from "../utils/generateToken";
@@ -208,6 +212,59 @@ export async function handleQuantityDecrement(c: Context) {
       },
     });
     return c.json({ msg: "Updated" }, 200);
+  } catch (error) {
+    return c.json({ msg: "Internal Server Error" }, 500);
+  }
+}
+
+export async function handlePlaceOrder(c: Context) {
+  const prisma = prismaClient(c);
+  const user = c.get("user");
+  const data = await c.req.json();
+  try {
+    const validatedData = placeOrderSchema.safeParse(data);
+    if (!validatedData.success) {
+      return c.json(
+        {
+          msg: "Invalid inputs",
+          errors: validatedData.error.errors,
+        },
+        400
+      );
+    }
+    const { phone, country, state, city, address } = validatedData.data;
+
+    const newOrder = await prisma.order.create({
+      data: {
+        userId: user.id,
+        phone,
+        country,
+        state,
+        city,
+        address,
+      },
+    });
+    if (!newOrder) return c.json({ msg: "Failed to order" }, 400);
+    const cartItems = await prisma.cartItem.findMany({
+      where: {
+        userId: user.id,
+        orderId: null,
+      },
+    });
+    if (cartItems.length === 0) {
+      return c.json({ msg: "No items in cart" }, 400);
+    }
+    await prisma.cartItem.updateMany({
+      where: {
+        id: {
+          in: cartItems.map((item: any) => item.id), // Get the cart item IDs
+        },
+      },
+      data: {
+        orderId: newOrder.id,
+      },
+    });
+    return c.json({ msg: "Order placed" }, 200);
   } catch (error) {
     return c.json({ msg: "Internal Server Error" }, 500);
   }

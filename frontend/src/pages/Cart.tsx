@@ -2,10 +2,11 @@ import { BACKEND_URL } from "@/lib/backend_url";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { IndianRupee } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const { data } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
@@ -66,7 +67,7 @@ function Cart() {
                 Price:{" "}
                 <span className="flex items-center">
                   <IndianRupee size={14} />
-                  {item?.product.price}
+                  {item?.product.price.toLocaleString("en-IN")}
                 </span>{" "}
               </p>
 
@@ -96,6 +97,13 @@ function Cart() {
           </div>
         );
       })}
+
+      <button
+        className="btn mt-3 bg-pink-500 text-white text-lg font-semibold rounded-md hover:bg-pink-600 transition px-4"
+        onClick={() => navigate("/cart/checkout")}
+      >
+        Proceed to Checkout
+      </button>
     </div>
   );
 }

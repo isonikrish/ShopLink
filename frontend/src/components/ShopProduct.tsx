@@ -38,7 +38,7 @@ function ShopProduct({ product, shop }: any) {
                   <IndianRupee size={16} />
 
               </span>
-              <p className="text-lg font-semibold">{product?.price}</p>
+              <p className="text-lg font-semibold">{product?.price.toLocaleString("en-IN")}</p>
             </div>
           </div>
 

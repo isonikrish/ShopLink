@@ -1,6 +1,6 @@
 import { useProduct } from "@/stores/productStore";
 import { useQuery } from "@tanstack/react-query";
-import {  IndianRupee } from "lucide-react";
+import { IndianRupee } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useUser } from "@/stores/userStore";
@@ -75,7 +75,7 @@ function Product() {
             <span>
               <IndianRupee size={16} />
             </span>
-            {data?.price}
+            {data?.price.toLocaleString("en-IN")}
           </p>
 
           <p className="text-lg">
