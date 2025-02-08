@@ -1,6 +1,6 @@
 import { useProduct } from "@/stores/productStore";
 import { useQuery } from "@tanstack/react-query";
-import { DollarSign, IndianRupee } from "lucide-react";
+import {  IndianRupee } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useUser } from "@/stores/userStore";
@@ -73,11 +73,7 @@ function Product() {
 
           <p className="text-2xl font-bold text-gray-900 flex items-center">
             <span>
-              {data?.shop?.currency === "inr" ? (
-                <IndianRupee size={16} />
-              ) : (
-                <DollarSign size={16} />
-              )}
+              <IndianRupee size={16} />
             </span>
             {data?.price}
           </p>

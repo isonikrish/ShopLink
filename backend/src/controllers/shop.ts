@@ -17,11 +17,10 @@ export async function handleCreateShop(c: Context) {
         400
       );
     }
-    const { name, currency } = validatedData.data;
+    const { name } = validatedData.data;
     const newShop = await prisma.shop.create({
       data: {
         name,
-        currency,
         ownerId: user?.id,
       },
     });

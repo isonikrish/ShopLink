@@ -1,7 +1,7 @@
-import { Heart, DollarSign, IndianRupee, ShoppingCart } from "lucide-react";
+import { Heart, IndianRupee, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function ShopProduct({ product, currency, shop }: any) {
+function ShopProduct({ product, shop }: any) {
   return (
     <div>
       <div className="card bg-base-100 w-72 shadow-xl border-secondary border m-4">
@@ -35,11 +35,8 @@ function ShopProduct({ product, currency, shop }: any) {
 
             <div className="badge badge-secondary mt-2 flex items-center space-x-1">
               <span>
-                {currency === "inr" ? (
                   <IndianRupee size={16} />
-                ) : (
-                  <DollarSign size={16} />
-                )}
+
               </span>
               <p className="text-lg font-semibold">{product?.price}</p>
             </div>

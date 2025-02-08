@@ -147,18 +147,67 @@ export async function handleGetCart(c: Context) {
   try {
     const cart = await prisma.cartItem.findMany({
       where: {
-        userId: user.id
+        userId: user.id,
       },
       include: {
         product: {
           include: {
-            shop: true
-          }
-        }
-      }
+            shop: true,
+          },
+        },
+      },
     });
     if (cart.length === 0) return c.json({ msg: "No item found in cart" }, 400);
     return c.json(cart, 200);
+  } catch (error) {
+    return c.json({ msg: "Internal Server Error" }, 500);
+  }
+}
+
+export async function handleQuantityIncrement(c: Context) {
+  const prisma = prismaClient(c);
+
+  const id = parseInt(c.req.param("id"));
+
+  try {
+    const cartItem = await prisma.cartItem.findUnique({
+      where: { id },
+    });
+    if (!cartItem) {
+      return c.json({ msg: "Cart item not found" }, 404);
+    }
+
+    const updateCartItem = await prisma.cartItem.update({
+      where: { id },
+      data: {
+        quantity: cartItem.quantity + 1,
+      },
+    });
+    return c.json({ msg: "Updated" }, 200);
+  } catch (error) {
+    return c.json({ msg: "Internal Server Error" }, 500);
+  }
+}
+export async function handleQuantityDecrement(c: Context) {
+  const prisma = prismaClient(c);
+
+  const id = parseInt(c.req.param("id"));
+
+  try {
+    const cartItem = await prisma.cartItem.findUnique({
+      where: { id },
+    });
+    if (!cartItem) {
+      return c.json({ msg: "Cart item not found" }, 404);
+    }
+
+    const updateCartItem = await prisma.cartItem.update({
+      where: { id },
+      data: {
+        quantity: cartItem.quantity - 1,
+      },
+    });
+    return c.json({ msg: "Updated" }, 200);
   } catch (error) {
     return c.json({ msg: "Internal Server Error" }, 500);
   }

@@ -1,19 +1,10 @@
 import { BACKEND_URL } from "@/lib/backend_url";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { DollarSign, IndianRupee } from "lucide-react";
-import { useState } from "react";
+import { IndianRupee } from "lucide-react";
 
 function Cart() {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleQuantityChange = (action: "increment" | "decrement") => {
-    if (action === "increment") {
-      setQuantity((prev) => prev + 1); // Increment quantity by 1
-    } else if (action === "decrement" && quantity > 1) {
-      setQuantity((prev) => prev - 1); // Decrement quantity by 1, ensuring it's at least 1
-    }
-  };
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ["cart"],
@@ -31,6 +22,26 @@ function Cart() {
     },
   });
 
+  const handleQuantityIncrement = async (id: number) => {
+    const res = await axios.put(
+      `${BACKEND_URL}/api/user/quantity-increment/${id}`,
+      {},
+      { withCredentials: true }
+    );
+    if (res.status === 200) {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    }
+  };
+  const handleQuantityDecrement = async (id: number) => {
+    const res = await axios.put(
+      `${BACKEND_URL}/api/user/quantity-decrement/${id}`,
+      {},
+      { withCredentials: true }
+    );
+    if (res.status === 200) {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    }
+  };
   return (
     <div className="p-6">
       <div className="mb-8">
@@ -51,30 +62,32 @@ function Cart() {
               <h2 className="card-title text-xl font-bold">
                 {item?.product.name}
               </h2>
-              <p className="card-title text-lg font-medium">
+              <p className="flex gap-2">
                 Price:{" "}
-                <span>
-                  {item?.product.shop.currency === "inr" ? (
-                    <IndianRupee size={14} />
-                  ) : (
-                    <DollarSign size={14} />
-                  )}
+                <span className="flex items-center">
+                  <IndianRupee size={14} />
+                  {item?.product.price}
                 </span>{" "}
-                {item?.product.price}
               </p>
 
               <div className="flex items-center space-x-4 mt-2">
+                {item.quantity === 1 ? (
+                  <button className="btn btn-sm" disabled>
+                    -
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-sm"
+                    onClick={() => handleQuantityDecrement(item.id)}
+                  >
+                    -
+                  </button>
+                )}
+
+                <span className="text-lg font-semibold">{item?.quantity}</span>
                 <button
                   className="btn btn-sm"
-                  onClick={() => handleQuantityChange("decrement")}
-                  disabled={quantity <= 1}
-                >
-                  -
-                </button>
-                <span className="text-lg font-semibold">{quantity}</span>
-                <button
-                  className="btn btn-sm"
-                  onClick={() => handleQuantityChange("increment")}
+                  onClick={() => handleQuantityIncrement(item.id)}
                 >
                   +
                 </button>

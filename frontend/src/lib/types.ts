@@ -14,7 +14,6 @@ export type User = {
 
 export type createShop = {
   name: string;
-  currency: string;
 };
 export type Shop = {
   id: number;

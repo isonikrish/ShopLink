@@ -5,17 +5,12 @@ function CreateShop() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    currency: "",
   });
 
   const { createShop } = useShop();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, currency: e.target.value }));
   };
 
   const handleCreateShop = async (e: React.FormEvent) => {
@@ -51,28 +46,6 @@ function CreateShop() {
             onChange={handleChange}
             name="name"
           />
-        </div>
-
-        <div className="mb-6">
-          <label
-            htmlFor="currency"
-            className="block text-base font-medium mb-2"
-          >
-            Shop Currency <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="currency"
-            className="select select-bordered w-full rounded-md"
-            value={formData.currency}
-            onChange={handleCurrencyChange}
-            required
-          >
-            <option disabled value="">
-              Select Currency
-            </option>
-            <option value="usd">USD - US Dollar</option>
-            <option value="inr">INR - Indian Rupee</option>
-          </select>
         </div>
 
         <div>

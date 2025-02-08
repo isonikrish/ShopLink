@@ -45,7 +45,7 @@ function Shop() {
       <div className="my-10 grid grid-cols-3 ">
         {shop?.products?.map((product:any)=> {
           return (
-            <ShopProduct product={product} currency={shop.currency} shop={shop}/>
+            <ShopProduct product={product} shop={shop}/>
 
           )
         })}

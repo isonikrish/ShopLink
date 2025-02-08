@@ -20,7 +20,6 @@ model User {
 model Shop {
   id            Int      @id @default(autoincrement())
   name          String   @unique
-  currency      Currency @default(inr)
   ownerId       Int
   owner         User     @relation(fields: [ownerId], references: [id])
   logo          String?
@@ -74,7 +73,3 @@ model CartItem {
   quantity Int @default(1)
 }
  
-enum Currency {
-  usd
-  inr
-}

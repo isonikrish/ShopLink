@@ -9,7 +9,6 @@ function GeneralCustomize() {
     logo: MyShop?.logo || File,
     name: MyShop?.name || "",
     description: MyShop?.description || "",
-    currency: MyShop?.currency || "",
   });
   
 
@@ -21,12 +20,11 @@ function GeneralCustomize() {
     }
   };
 
-  const handleSubmitChanges = async (e: any) => {
+  const handleSubmitChanges = async () => {
     setIsLoading(true);
     const data = new FormData();
     data.append("name", generalCustomize.name);
     data.append("description", generalCustomize.description);
-    data.append("currency", generalCustomize.currency);
     if (generalCustomize.logo instanceof File) {
       data.append("logo", generalCustomize.logo);
     }
@@ -79,29 +77,7 @@ function GeneralCustomize() {
           }
         ></textarea>
       </div>
-      <div className="card bg-base-100 p-4 rounded-lg shadow">
-        <label htmlFor="currency" className="block text-base font-medium mb-2">
-          Shop Currency
-        </label>
-        <select
-          id="currency"
-          className="select select-bordered w-full rounded-md"
-          value={generalCustomize.currency}
-          onChange={(e) =>
-            setGeneralCustomize({
-              ...generalCustomize,
-              currency: e.target.value,
-            })
-          }
-          required
-        >
-          <option disabled value="">
-            Select Currency
-          </option>
-          <option value="usd">USD - US Dollar</option>
-          <option value="inr">INR - Indian Rupee</option>
-        </select>
-      </div>
+
       <button
         className="btn bg-pink-500 text-white mt-3 w-36 rounded-md"
         onClick={handleSubmitChanges}

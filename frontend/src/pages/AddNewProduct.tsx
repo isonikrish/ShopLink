@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, DollarSign, IndianRupee } from "lucide-react";
+import { ArrowLeft, IndianRupee } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Shop } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
@@ -32,14 +32,13 @@ function AddNewProduct() {
         ...prev,
         [name]: isNaN(parsedPrice) ? 0 : parsedPrice,
       }));
-    } else if(name === "stock"){
+    } else if (name === "stock") {
       const parsedStock = parseFloat(value);
-      setFormData((prev)=>({
+      setFormData((prev) => ({
         ...prev,
         [name]: isNaN(parsedStock) ? 0 : parsedStock,
-      }))
-    }
-    else {
+      }));
+    } else {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -191,7 +190,7 @@ function AddNewProduct() {
               </label>
               <div className="flex items-center border rounded-md">
                 <span className="px-3">
-                  {shop?.currency === "inr" ? <IndianRupee /> : <DollarSign />}
+                  <IndianRupee />
                 </span>
                 <input
                   type="number"
