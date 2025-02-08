@@ -76,27 +76,29 @@ model CartItem {
 }
 
 model Order {
-  id         Int         @id @default(autoincrement())
-  phone      String
-  country    String
-  state      String
-  city       String
-  address    String
-  userId     Int
-  user       User        @relation(fields: [userId], references: [id])
-  status     OrderStatus @default(placed)
+  id      Int    @id @default(autoincrement())
+  phone   String
+  country String
+  state   String
+  city    String
+  address String
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id])
+
   orderItems OrderItem[]
+  createdAt  DateTime    @default(now())
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  productId Int
-  product   Product @relation(fields: [productId], references: [id])
-  shopId    Int
-  quantity  Int
-  orderId   Int
-  order     Order   @relation(fields: [orderId], references: [id])
+  id             Int         @id @default(autoincrement())
+  productId      Int
+  product        Product     @relation(fields: [productId], references: [id])
+  shopId         Int
+  quantity       Int
+  orderId        Int
+  order          Order       @relation(fields: [orderId], references: [id])
   selectVariants Json
+  status         OrderStatus @default(placed)
 }
 
 enum OrderStatus {

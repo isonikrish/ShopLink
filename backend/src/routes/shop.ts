@@ -3,11 +3,13 @@ import { protectRoute } from "../utils/protectRoute";
 import {
   handleAddCategory,
   handleChangeApperance,
+  handleChangeOrderStatus,
   handleContactUpdate,
   handleCreateShop,
   handleGeneralUpdate,
   handleGetMyShop,
   handleGetMyShops,
+  handleGetOrders,
 } from "../controllers/shop";
 import { isOwner } from "../utils/authorize";
 
@@ -35,5 +37,9 @@ shopRoutes.put(
   isOwner,
   handleAddCategory
 );
+
+shopRoutes.get("/orders/:id", protectRoute, handleGetOrders);
+shopRoutes.put("/change-order-status/:id", protectRoute, handleChangeOrderStatus);
+
 
 export default shopRoutes;

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function ManageShop() {
-  const [menu, setMenu] = useState("home");
+  const [menu, setMenu] = useState("customize");
   const { shopname } = useParams();
   const { setMyShop } = useShop();
 

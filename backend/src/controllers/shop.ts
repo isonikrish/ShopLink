@@ -254,3 +254,49 @@ export async function handleAddCategory(c: Context) {
     return c.json({ msg: "Internal server error" }, 500);
   }
 }
+
+export async function handleGetOrders(c: Context) {
+  const prisma = prismaClient(c);
+  const id = parseInt(c.req.param("id"));
+  try {
+    const orders = await prisma.orderItem.findMany({
+      where: { shopId: id },
+      include: {
+        order: {
+          include: {
+            user: true,
+          },
+        },
+        product: true,
+      },
+    });
+
+    if (orders.length === 0) {
+      return c.json({ msg: "No orders found" }, 404);
+    }
+
+    return c.json(orders, 200);
+  } catch (error) {
+    return c.json({ msg: "Internal server error" }, 500);
+  }
+}
+
+export async function handleChangeOrderStatus(c: Context) {
+  const prisma = prismaClient(c);
+  const id = parseInt(c.req.param("id"));
+  const data = await c.req.json();
+  const { status } = data;
+  try {
+    const updatedStatus = await prisma.orderItem.update({
+      where: { id },
+      data: {
+        status,
+      },
+    });
+
+    return c.json({msg: "Updated order status"}, 200)
+  } catch (error) {
+    return c.json({ msg: "Internal server error" }, 500);
+
+  }
+}
