@@ -1,9 +1,5 @@
 import { Context } from "hono";
-import {
-  loginSchema,
-  placeOrderSchema,
-  signupSchema,
-} from "../utils/zodSchemas";
+import { loginSchema, signupSchema } from "../utils/zodSchemas";
 import { prismaClient } from "../utils/prismaClient";
 import { passwordCompare, passwordHash } from "../utils/passwordHash";
 import { generateTokenAndSetCookie } from "../utils/generateToken";
@@ -222,47 +218,30 @@ export async function handlePlaceOrder(c: Context) {
   const user = c.get("user");
   const data = await c.req.json();
   try {
-    const validatedData = placeOrderSchema.safeParse(data);
-    if (!validatedData.success) {
-      return c.json(
-        {
-          msg: "Invalid inputs",
-          errors: validatedData.error.errors,
-        },
-        400
-      );
-    }
-    const { phone, country, state, city, address } = validatedData.data;
+    const { formData, orderItems } = data;
+    //create an order first
 
+    const { phone, country, state, city, address } = formData;
     const newOrder = await prisma.order.create({
       data: {
-        userId: user.id,
         phone,
         country,
         state,
         city,
         address,
-      },
-    });
-    if (!newOrder) return c.json({ msg: "Failed to order" }, 400);
-    const cartItems = await prisma.cartItem.findMany({
-      where: {
         userId: user.id,
-        orderId: null,
       },
     });
-    if (cartItems.length === 0) {
-      return c.json({ msg: "No items in cart" }, 400);
-    }
-    await prisma.cartItem.updateMany({
-      where: {
-        id: {
-          in: cartItems.map((item: any) => item.id), // Get the cart item IDs
-        },
-      },
-      data: {
-        orderId: newOrder.id,
-      },
+    if (!newOrder) return c.json({ msg: "failed place order" }, 400);
+    const orderItemsData = orderItems.map((item: any) => ({
+      productId: item.productId,
+      shopId: item.shopId,
+      quantity: item.quantity,
+      orderId: newOrder.id,
+      selectVariants: item.selectVariants,
+    }));
+    await prisma.orderItem.createMany({
+      data: orderItemsData,
     });
     return c.json({ msg: "Order placed" }, 200);
   } catch (error) {

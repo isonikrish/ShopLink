@@ -26,7 +26,7 @@ function ProductsList() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Price ({MyShop?.currency})</th>
+              <th>Price (INR)</th>
               <th>Category</th>
               <th></th>
             </tr>
@@ -50,7 +50,7 @@ function ProductsList() {
                       </div>
                     </div>
                   </td>
-                  <td>{product.description}</td>
+                  <td>{product.price.toLocaleString('en-IN')}</td>
                   <td>{product.category}</td>
                   <th>
                     <button

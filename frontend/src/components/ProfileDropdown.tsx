@@ -1,5 +1,5 @@
 import { useUser } from "../stores/userStore";
-import { Bell, LogOut, Store } from "lucide-react";
+import { Bell, LogOut, ShoppingCart, Store } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -39,9 +39,9 @@ function ProfileDropdown() {
               </Link>
             </li>
             <li className="p-2 hover:bg-base-200 rounded-md">
-              <Link to="/notifications" className="flex items-center">
-                <Bell size={16} className="mr-2" />
-                Notifications
+              <Link to="/orders" className="flex items-center">
+                <ShoppingCart size={16} className="mr-2" />
+                Orders
               </Link>
             </li>
             <li

@@ -47,10 +47,16 @@ function Checkout() {
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    const orderItems = data?.map((item: any) => ({
+      productId: item.productId,
+      shopId: item.product.shopId,
+      quantity: item.quantity,
+      selectVariants: item.selectedVariants,
+    }));
     try {
       const res = await axios.post(
         `${BACKEND_URL}/api/user/place-order`,
-        formData,
+        { formData, orderItems },
         { withCredentials: true }
       );
       if (res.status === 200) {
@@ -187,7 +193,7 @@ function Checkout() {
         </div>
         <button
           className="btn mt-3 bg-pink-500 text-white text-lg font-semibold rounded-md hover:bg-pink-600 transition px-4"
-          onClick={handlePlaceOrder} 
+          onClick={handlePlaceOrder}
         >
           {isLoading ? (
             <span className="loading loading-dots loading-md"></span>
