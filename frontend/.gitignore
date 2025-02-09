@@ -24,4 +24,3 @@ dist-ssr
 *.sw?
 .env
 
-/src/lib/backend_url.ts
