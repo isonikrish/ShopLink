@@ -92,7 +92,7 @@ function AddNewProduct() {
     data.append("productImage", formData.productImage);
     data.append("stock", formData.stock);
     if (shop?.id) {
-      const response = await addNewProduct(shop?.id, data);
+      await addNewProduct(shop?.id, data);
       navigate(`/manage/${shopname}`);
     }
 
