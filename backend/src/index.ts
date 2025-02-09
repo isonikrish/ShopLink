@@ -8,12 +8,12 @@ const app = new Hono()
 app.use(
   "*",
   cors({
-    origin: "http://localhost:5173", 
+    origin: "https://shoplink-two.vercel.app", 
     credentials: true,
   })
 );
 app.use("*", (c, next) => {
-  c.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  c.header("Access-Control-Allow-Origin", "https://shoplink-two.vercel.app");
   c.header("Access-Control-Allow-Credentials", "true");
   return next();
 });
