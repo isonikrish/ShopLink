@@ -14,6 +14,9 @@ import Shop from "./pages/Shop";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
+import Home from "./pages/Home";
+import { Footer } from "./components/Footer";
 
 function App() {
   const { fetchUser, user } = useUser();
@@ -87,7 +90,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/orders" element={<Orders />}/>
+        <Route path="/" element={<Home />}/>
       </Routes>
+      <Footer />
       <Toaster />
     </div>
   );

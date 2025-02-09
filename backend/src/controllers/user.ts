@@ -248,3 +248,28 @@ export async function handlePlaceOrder(c: Context) {
     return c.json({ msg: "Internal Server Error" }, 500);
   }
 }
+
+
+export async function handleGetMyOrders(c:Context){
+  const prisma = prismaClient(c);
+  const user = c.get("user");
+  try {
+    const orders = await prisma.order.findMany({
+      where: {userId: user.id},
+      include: {
+        orderItems: {
+          include: {
+            product: true
+          }
+        },
+      }
+    })
+    if(orders.length === 0){
+      return c.json({msg: "No orders found"},404)
+    }
+
+    return c.json(orders)
+  } catch (error) {
+    return c.json({msg: "Internal Server Error"}, 500)
+  }
+}

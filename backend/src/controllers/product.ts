@@ -93,3 +93,27 @@ export async function handleAddVariant(c:Context){
     return c.json({msg: "Internal Server Error"},500)
   }
 }
+
+export async function handleGetFeaturedProducts(c:Context) {
+  const prisma = prismaClient(c)
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        orders: {
+           // Check if there are more than 1 related orders
+          some: {}
+        }
+      },
+      include: {
+        orders: true,
+        shop: true
+      }
+    })
+    const featuredProducts = products.filter((product:any) => product.orders.length > 1);
+
+    return c.json(featuredProducts, 200)
+  } catch (error) {
+    return c.json({msg: "Internal Server Error"},500)
+
+  }
+}

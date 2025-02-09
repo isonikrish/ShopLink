@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { handleAddToCart, handleGetCart, handleGetMe, handleLogin, handleLogout, handlePlaceOrder, handleQuantityDecrement, handleQuantityIncrement, handleSignup } from "../controllers/user";
+import { handleAddToCart, handleGetCart, handleGetMe, handleGetMyOrders, handleLogin, handleLogout, handlePlaceOrder, handleQuantityDecrement, handleQuantityIncrement, handleSignup } from "../controllers/user";
 import { protectRoute } from "../utils/protectRoute";
 
 const userRoutes = new Hono();
@@ -13,4 +13,6 @@ userRoutes.get("/get-cart", protectRoute, handleGetCart);
 userRoutes.put("/quantity-increment/:id", protectRoute, handleQuantityIncrement);
 userRoutes.put("/quantity-decrement/:id", protectRoute, handleQuantityDecrement);
 userRoutes.post("/place-order", protectRoute, handlePlaceOrder);
+userRoutes.get("/my-orders", protectRoute, handleGetMyOrders);
+
 export default userRoutes;

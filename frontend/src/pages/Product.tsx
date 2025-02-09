@@ -119,12 +119,12 @@ function Product() {
 
           <div className="mt-6 flex items-center space-x-4">
             {addedInCart ? (
-              <button className="btn bg-pink-500 text-white w-full py-3 text-xl rounded-lg">
+              <button className="btn bg-pink-500 text-white w-full text-xl rounded-lg">
                 Remove from cart
               </button>
             ) : (
               <button
-                className="btn bg-pink-500 text-white w-full py-3 text-xl rounded-lg"
+                className="btn bg-pink-500 text-white w-full text-xl rounded-lg"
                 onClick={handleAddToCart}
               >
                 {isLoading ? (
