@@ -1,5 +1,5 @@
 import { useUser } from "../stores/userStore";
-import { Bell, LogOut, ShoppingCart, Store } from "lucide-react";
+import {  LogOut, ShoppingCart, Store } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
