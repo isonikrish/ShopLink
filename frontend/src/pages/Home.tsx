@@ -9,7 +9,7 @@ function Home() {
       <div className="min-h-screen flex justify-center flex-col items-center gap-10 px-6 py-16">
         <div className="w-full text-center space-y-6">
           <h1 className="text-6xl font-extrabold text-gray-800 mb-4">
-            Create, Sell, Shop - A Marketplace Without Limits!
+            Create, Sell, Shop - A Marketplace Without Limits
           </h1>
           <p className="text-lg text-gray-600">
             Join our platform and experience a seamless way to create your shop,
